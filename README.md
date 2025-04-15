@@ -140,10 +140,10 @@ The current implementation of tools requires several improvements:
 Here are examples of how to implement this MCP server in Cursor:
 
 1. Configure the MCP server in Cursor's `mcp.json`:
-![Cursor MCP JSON Configuration](https://drive.google.com/file/d/19iflppfDYKqgxzvQX_idS4uRzuohVS8V/view?usp=sharing)
+![Cursor MCP JSON Configuration](https://res.cloudinary.com/dsnixniqa/image/upload/v1744736914/mcp-cursor-1_nwlelh.png)
 
 2. Enable and use the available tools in Cursor's settings:
-![Cursor MCP Tools Configuration](https://drive.google.com/file/d/1QXSBpJ2Xn1LcpBtNcd-XE4hnwSUp8cKJ/view?usp=sharing)
+![Cursor MCP Tools Configuration](https://res.cloudinary.com/dsnixniqa/image/upload/v1744736973/Captura_de_Tela_2025-04-15_a%CC%80s_2.09.20_PM_lvjrs6.png)
 
 ## License
 
