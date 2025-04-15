@@ -31,18 +31,24 @@ function registerFetchCodaTablesTools(server) {
         }
         try {
             console.log(`Fetching tables for document ID: ${docId}`);
+            console.log(`Using API key: ${apiKey.substring(0, 5)}...${apiKey.substring(apiKey.length - 4)}`);
             // Call Coda API to fetch tables
-            const response = await fetch(`https://coda.io/apis/v1/docs/${docId}/tables`, {
+            const url = `https://coda.io/apis/v1/docs/${docId}/tables`;
+            console.log(`Making request to: ${url}`);
+            const headers = {
+                Authorization: `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+            };
+            console.log(`Headers: ${JSON.stringify(headers, (k, v) => k === 'Authorization' ? `Bearer ${apiKey.substring(0, 5)}...` : v)}`);
+            const response = await fetch(url, {
                 method: "GET",
-                headers: {
-                    Authorization: `Bearer ${apiKey}`,
-                    "Content-Type": "application/json",
-                },
+                headers: headers,
             });
             // Handle API errors
             if (!response.ok) {
                 const errorText = await response.text();
                 console.error(`Coda API Error: ${response.status} - ${errorText}`);
+                console.error(`Response headers: ${JSON.stringify(Object.fromEntries([...response.headers]))}`);
                 throw new Error(`API Error: ${response.status} - ${errorText}`);
             }
             // Parse and return the data
