@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import * as dotenv from "dotenv";
+import cors from "cors";
 import { registerFetchCodaTablesTools } from "./tools/fetch-coda-tables.tool.js";
 import { registerFetchCodaTableTool } from "./tools/fetch-coda-table.tool.js";
 import { registerFetchCodaTableColumnsTools } from "./tools/fetch-coda-table-columns.tool.js";
@@ -30,6 +31,7 @@ registerDeleteCodaRowsTool(server);
 registerFetchCodaDocsTool(server);
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // to support multiple simultaneous connections we have a lookup object from
@@ -62,7 +64,13 @@ app.get("/health", (_, res: Response) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`MCP server running at http://localhost:${PORT}`);
+const PORT = parseInt(process.env.PORT || "8000", 10);
+const HOST = "0.0.0.0";
+
+app.listen(PORT, HOST, () => {
+  console.log(`MCP server running at http://${HOST}:${PORT}`);
+  console.log("Available endpoints:");
+  console.log(`- GET  /sse       - SSE connection endpoint`);
+  console.log(`- POST /messages  - Message handling endpoint`);
+  console.log(`- GET  /health    - Server health check endpoint`);
 });
