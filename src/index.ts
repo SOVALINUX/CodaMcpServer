@@ -31,8 +31,6 @@ registerDeleteCodaRowsTool(server);
 registerFetchCodaDocsTool(server);
 
 const app = express();
-// app.use(cors());
-// app.use(express.json());
 
 // to support multiple simultaneous connections we have a lookup object from
 // sessionId to transport
