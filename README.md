@@ -1,13 +1,10 @@
 
-# MCP Coda Integration Server
+# MCP Server - Coda.io
 
 A Model Context Protocol (MCP) server implementation for seamless integration with Coda's API, providing various tools for document, table, and data management.
 
 ## Features
 
-- Document Management
-  - Fetch available Coda documents
-  - Filter documents by ownership
 - Table Operations
   - Fetch all tables from a document
   - Retrieve specific table data
