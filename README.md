@@ -135,6 +135,16 @@ The current implementation of tools requires several improvements:
 - Caching mechanisms for frequently accessed data
 - There is more API tools to implement based on the documentation
 
+## MCP Client Implementation Example
+
+Here are examples of how to implement this MCP server in Cursor:
+
+1. Configure the MCP server in Cursor's `mcp.json`:
+![Cursor MCP JSON Configuration](attached_assets/Captura%20de%20Tela%202025-04-15%20às%201.57.30%20PM.png)
+
+2. Enable and use the available tools in Cursor's settings:
+![Cursor MCP Tools Configuration](attached_assets/Captura%20de%20Tela%202025-04-15%20às%201.57.53%20PM.png)
+
 ## License
 
 This project is licensed under the ISC License.
