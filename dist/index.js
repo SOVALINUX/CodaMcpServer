@@ -40,7 +40,7 @@ const express_1 = __importDefault(require("express"));
 const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const sse_js_1 = require("@modelcontextprotocol/sdk/server/sse.js");
 const dotenv = __importStar(require("dotenv"));
-const cors_1 = __importDefault(require("cors"));
+// import cors from "cors";
 const fetch_coda_tables_tool_js_1 = require("./tools/fetch-coda-tables.tool.js");
 const fetch_coda_table_tool_js_1 = require("./tools/fetch-coda-table.tool.js");
 const fetch_coda_table_columns_tool_js_1 = require("./tools/fetch-coda-table-columns.tool.js");
@@ -65,8 +65,8 @@ const server = new mcp_js_1.McpServer({
 (0, delete_coda_rows_tool_js_1.registerDeleteCodaRowsTool)(server);
 (0, fetch_coda_docs_tool_js_1.registerFetchCodaDocsTool)(server);
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
+// app.use(cors());
+// app.use(express.json());
 // to support multiple simultaneous connections we have a lookup object from
 // sessionId to transport
 const transports = {};
@@ -89,9 +89,6 @@ app.post("/messages", async (req, res) => {
         res.status(400).send("No transport found for sessionId");
     }
 });
-app.get("/health", (_, res) => {
-    res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
-});
 const PORT = parseInt(process.env.PORT || "8000", 10);
 const HOST = "0.0.0.0";
 app.listen(PORT, HOST, () => {
@@ -99,5 +96,4 @@ app.listen(PORT, HOST, () => {
     console.log("Available endpoints:");
     console.log(`- GET  /sse       - SSE connection endpoint`);
     console.log(`- POST /messages  - Message handling endpoint`);
-    console.log(`- GET  /health    - Server health check endpoint`);
 });
