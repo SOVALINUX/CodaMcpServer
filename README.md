@@ -124,6 +124,16 @@ src/
 - Zod - Runtime type checking
 - dotenv - Environment configuration
 
+## Known Limitations and Future Improvements
+
+The current implementation of tools requires several improvements:
+- Enhanced JSON response handling and formatting
+- Implementation of pagination for large datasets
+- Better error handling and retry mechanisms
+- Rate limiting implementation
+- Batch processing for large operations
+- Caching mechanisms for frequently accessed data
+
 ## License
 
 This project is licensed under the ISC License.
