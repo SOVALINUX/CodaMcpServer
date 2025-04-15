@@ -140,10 +140,10 @@ The current implementation of tools requires several improvements:
 Here are examples of how to implement this MCP server in Cursor:
 
 1. Configure the MCP server in Cursor's `mcp.json`:
-![Cursor MCP JSON Configuration](attached_assets/Captura%20de%20Tela%202025-04-15%20às%201.57.30%20PM.png)
+![Cursor MCP JSON Configuration](https://drive.google.com/file/d/19iflppfDYKqgxzvQX_idS4uRzuohVS8V/view?usp=sharing)
 
 2. Enable and use the available tools in Cursor's settings:
-![Cursor MCP Tools Configuration](attached_assets/Captura%20de%20Tela%202025-04-15%20às%201.57.53%20PM.png)
+![Cursor MCP Tools Configuration](https://drive.google.com/file/d/1QXSBpJ2Xn1LcpBtNcd-XE4hnwSUp8cKJ/view?usp=sharing)
 
 ## License
 
