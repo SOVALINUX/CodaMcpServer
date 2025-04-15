@@ -52,7 +52,7 @@ const server = new mcp_js_1.McpServer({
 (0, fetch_coda_tables_js_1.registerFetchCodaTablesTools)(server);
 // Initialize Express app
 const app = (0, express_1.default)();
-app.use(express_1.default.json());
+//app.use(express.json());
 // Store active SSE transports
 const transports = {};
 // SSE endpoint for MCP
