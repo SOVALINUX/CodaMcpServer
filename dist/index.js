@@ -40,33 +40,29 @@ const express_1 = __importDefault(require("express"));
 const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const sse_js_1 = require("@modelcontextprotocol/sdk/server/sse.js");
 const dotenv = __importStar(require("dotenv"));
-const fetch_coda_tables_js_1 = require("./tools/fetch-coda-tables.js");
+const fetch_coda_tables_tool_js_1 = require("./tools/fetch-coda-tables.tool.js");
 // Load environment variables
 dotenv.config();
-// Create MCP server instance
 const server = new mcp_js_1.McpServer({
-    name: "mcp-coda-api",
+    name: "mcp-coda",
     version: "1.0.0",
 });
-// Register Coda tools
-(0, fetch_coda_tables_js_1.registerFetchCodaTablesTools)(server);
-// Initialize Express app
+// Register tools
+(0, fetch_coda_tables_tool_js_1.registerFetchCodaTablesTools)(server);
 const app = (0, express_1.default)();
-//app.use(express.json());
-// Store active SSE transports
+app.use(express_1.default.json());
+// to support multiple simultaneous connections we have a lookup object from
+// sessionId to transport
 const transports = {};
-// SSE endpoint for MCP
 app.get("/sse", async (_, res) => {
     const transport = new sse_js_1.SSEServerTransport("/messages", res);
     transports[transport.sessionId] = transport;
     res.on("close", () => {
-        console.log(`Connection closed for sessionId: ${transport.sessionId}`);
         delete transports[transport.sessionId];
     });
     console.log(`New SSE connection established, sessionId: ${transport.sessionId}`);
     await server.connect(transport);
 });
-// Message handling endpoint
 app.post("/messages", async (req, res) => {
     const sessionId = req.query.sessionId;
     const transport = transports[sessionId];
@@ -74,21 +70,13 @@ app.post("/messages", async (req, res) => {
         await transport.handlePostMessage(req, res);
     }
     else {
-        console.error(`No transport found for sessionId: ${sessionId}`);
         res.status(400).send("No transport found for sessionId");
     }
 });
-// Server health check endpoint
 app.get("/health", (_, res) => {
     res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
 });
-// Start the server
-const PORT = parseInt(process.env.PORT || "8000", 10);
-const HOST = "0.0.0.0";
-app.listen(PORT, HOST, () => {
-    console.log(`MCP server running at http://${HOST}:${PORT}`);
-    console.log("Available endpoints:");
-    console.log(`- GET  /sse       - SSE connection endpoint`);
-    console.log(`- POST /messages  - Message handling endpoint`);
-    console.log(`- GET  /health    - Server health check endpoint`);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`MCP server running at http://localhost:${PORT}`);
 });
