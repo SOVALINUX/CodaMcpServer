@@ -41,6 +41,13 @@ const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const sse_js_1 = require("@modelcontextprotocol/sdk/server/sse.js");
 const dotenv = __importStar(require("dotenv"));
 const fetch_coda_tables_tool_js_1 = require("./tools/fetch-coda-tables.tool.js");
+const fetch_coda_table_tool_js_1 = require("./tools/fetch-coda-table.tool.js");
+const fetch_coda_table_columns_tool_js_1 = require("./tools/fetch-coda-table-columns.tool.js");
+const fetch_coda_column_tool_js_1 = require("./tools/fetch-coda-column.tool.js");
+const fetch_coda_rows_tool_js_1 = require("./tools/fetch-coda-rows.tool.js");
+const upsert_coda_rows_tool_js_1 = require("./tools/upsert-coda-rows.tool.js");
+const delete_coda_rows_tool_js_1 = require("./tools/delete-coda-rows.tool.js");
+const fetch_coda_docs_tool_js_1 = require("./tools/fetch-coda-docs.tool.js");
 // Load environment variables
 dotenv.config();
 const server = new mcp_js_1.McpServer({
@@ -49,6 +56,13 @@ const server = new mcp_js_1.McpServer({
 });
 // Register tools
 (0, fetch_coda_tables_tool_js_1.registerFetchCodaTablesTools)(server);
+(0, fetch_coda_table_tool_js_1.registerFetchCodaTableTool)(server);
+(0, fetch_coda_table_columns_tool_js_1.registerFetchCodaTableColumnsTools)(server);
+(0, fetch_coda_column_tool_js_1.registerFetchCodaColumnTool)(server);
+(0, fetch_coda_rows_tool_js_1.registerFetchCodaRowsTool)(server);
+(0, upsert_coda_rows_tool_js_1.registerUpsertCodaRowsTool)(server);
+(0, delete_coda_rows_tool_js_1.registerDeleteCodaRowsTool)(server);
+(0, fetch_coda_docs_tool_js_1.registerFetchCodaDocsTool)(server);
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 // to support multiple simultaneous connections we have a lookup object from

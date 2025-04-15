@@ -3,6 +3,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import * as dotenv from "dotenv";
 import { registerFetchCodaTablesTools } from "./tools/fetch-coda-tables.tool.js";
+import { registerFetchCodaTableTool } from "./tools/fetch-coda-table.tool.js";
+import { registerFetchCodaTableColumnsTools } from "./tools/fetch-coda-table-columns.tool.js";
+import { registerFetchCodaColumnTool } from "./tools/fetch-coda-column.tool.js";
+import { registerFetchCodaRowsTool } from "./tools/fetch-coda-rows.tool.js";
+import { registerUpsertCodaRowsTool } from "./tools/upsert-coda-rows.tool.js";
+import { registerDeleteCodaRowsTool } from "./tools/delete-coda-rows.tool.js";
+import { registerFetchCodaDocsTool } from "./tools/fetch-coda-docs.tool.js";
 
 // Load environment variables
 dotenv.config();
@@ -14,6 +21,13 @@ const server = new McpServer({
 
 // Register tools
 registerFetchCodaTablesTools(server);
+registerFetchCodaTableTool(server);
+registerFetchCodaTableColumnsTools(server);
+registerFetchCodaColumnTool(server);
+registerFetchCodaRowsTool(server);
+registerUpsertCodaRowsTool(server);
+registerDeleteCodaRowsTool(server);
+registerFetchCodaDocsTool(server);
 
 const app = express();
 app.use(express.json());
