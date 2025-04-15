@@ -133,6 +133,7 @@ The current implementation of tools requires several improvements:
 - Rate limiting implementation
 - Batch processing for large operations
 - Caching mechanisms for frequently accessed data
+- There is more API tools to implement based on the documentation
 
 ## License
 
