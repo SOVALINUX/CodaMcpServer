@@ -19,13 +19,49 @@ export function registerFetchCodaRowsTool(server: McpServer) {
    */
   server.tool(
     "fetch-coda-rows",
+    "Fetch rows from a Coda table with optional filters, sorting, and formatting.",
     { 
-      docId: z.string(),
-      tableId: z.string(),
-      limit: z.number().optional(),
-      query: z.string().optional()
+      docId: z
+        .string()
+        .describe("The ID of the Coda document (e.g., doc_abcd1234)."),
+      tableId: z
+        .string()
+        .describe("The ID of the Coda table (e.g., grid_xyz9876)."),
+      limit: z
+        .number()
+        .int()
+        .positive()
+        .max(500)
+        .optional()
+        .describe("Maximum number of results to return."),
+      query: z
+        .string()
+        .optional()
+        .describe(
+          "Filter expression as <column_id_or_name>:<value>. Quote names and string values (e.g., \"My Column\":\"groceries\")."
+        ),
+      sortBy: z
+        .enum(["createdAt", "updatedAt", "natural"])
+        .optional()
+        .describe(
+          "Sort order of rows. 'natural' implies visibleOnly=true and cannot be used with visibleOnly=false."
+        ),
+      useColumnNames: z
+        .boolean()
+        .optional()
+        .describe(
+          "Return column names instead of column IDs in the output. Fragile if columns are renamed, but handy when only read w/o further edit is required."
+        ),
+      valueFormat: z
+        .enum(["simple", "rich"]) 
+        .optional()
+        .describe("The format that cell values are returned as."),
+      visibleOnly: z
+        .boolean()
+        .optional()
+        .describe("If true, returns only visible rows and columns for the table.")
     }, 
-    async ({ docId, tableId, limit, query }) => {
+    async ({ docId, tableId, limit, query, sortBy, useColumnNames, valueFormat, visibleOnly }) => {
       // Get API key from environment variables
       const apiKey = process.env.CODA_API_KEY;
       if (!apiKey) {
@@ -53,6 +89,37 @@ export function registerFetchCodaRowsTool(server: McpServer) {
         
         if (query) {
           queryParams.append('query', query);
+        }
+
+        // sortBy validation and mapping
+        if (sortBy) {
+          const apiSortValue =
+            sortBy === "createdAt" ? "createdAt" :
+            sortBy === "updatedAt" ? "updatedAt" :
+            "natural";
+
+          // If natural is requested, enforce visibleOnly=true as per API rules
+          if (apiSortValue === "natural") {
+            if (visibleOnly === false) {
+              throw new Error("Invalid parameters: sortBy=natural implies visibleOnly=true; do not set visibleOnly=false.");
+            }
+            // If not explicitly set, force visibleOnly to true to avoid server-side Bad Request
+            visibleOnly = true;
+          }
+
+          queryParams.append('sortBy', apiSortValue);
+        }
+
+        if (typeof useColumnNames === 'boolean') {
+          queryParams.append('useColumnNames', String(useColumnNames));
+        }
+
+        if (valueFormat) {
+          queryParams.append('valueFormat', valueFormat);
+        }
+
+        if (typeof visibleOnly === 'boolean') {
+          queryParams.append('visibleOnly', String(visibleOnly));
         }
         
         const queryString = queryParams.toString();

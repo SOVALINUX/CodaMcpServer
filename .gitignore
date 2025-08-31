@@ -8,6 +8,7 @@ yarn-error.log*
 # TypeScript build output
 dist/
 *.tsbuildinfo
+attached_assets/
 
 # Environment variables
 .env
